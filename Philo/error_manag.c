@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   error_manag.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: afromont <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/07 14:11:11 by afromont          #+#    #+#             */
-/*   Updated: 2024/02/07 14:11:15 by afromont         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 void	error(char *str)
@@ -23,11 +11,27 @@ void	check_error(int argc, char **argv)
 	int i;
 
 	i = 1;
-	if (argc != 6)
-		error("invalid number of arguments\n");
-	while (i <= 4)
+	if (argc <= 6)
 	{
-		if (ftatoi(argv[i++]) == 0)
-			error("the arguments are invalid\n");
+		if (ftatoi(argv[1]) >= 200)
+			error("Error\nThe number of philosophers is greater than 200");
+		if (argc == 5)
+		{
+			while (i++ <= 4)
+			{
+				if (ftatoi(argv[i]) == 0)
+					error("Error\nthe arguments are invalid\n");
+			}
+		}
+		else if (argc == 6)
+		{
+			while (i++ <= 5)
+			{
+				if (ftatoi(argv[i]) == 0)
+					error("Error\nthe arguments are invalid\n");
+			}
+		}
 	}
+	else
+		error("Error\nInvalid number of arguments");
 }

@@ -12,14 +12,23 @@
 
 #include "philo.h"
 
-
 int main (int argc, char **argv)
 {
-	t_philo data;
-	
-	check_error(argc, argv);
-	init_struct(&data, ftatoi(argv[1]), ftatoi(argv[2]), ftatoi(argv[3]), ftatoi(argv[4]), ftatoi(argv[5])); // todo ftatoi
-	init_list(data.var.number_of_philosopher);
-	initphilo(&data);
+	t_data	data;
+
+	//check_error(argc, argv);
+	init_struct(&data,argv, argc);
+	printf("%zu", data.nb_philo);
+	printf("%zu", data.death_time);
+	printf("%zu", data.eat_time);
+	printf("%zu", data.sleep_time);
+	printf("%zu", data.nb_eating);
+	/*while (i < data.id_thread)
+	{
+		if (pthread_create(data.id_thread, NULL, ) != 0);
+		error("erreur to init thread\n");
+		else
+			i++;
+	}*/
 	return (0);
 }

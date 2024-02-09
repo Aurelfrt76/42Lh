@@ -1,56 +1,61 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: afromont <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/07 14:11:22 by afromont          #+#    #+#             */
-/*   Updated: 2024/02/07 14:11:27 by afromont         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
-void	init_struct(t_philo *data, int nb, int die, int eat, int sleep, int nb_eat)
+void	init_philo(t_data *data)
 {
-	data->var.number_of_philosopher = nb;
-	data->var.time_to_die = die;
-	data->var.time_to_eat = eat;
-	data->var.time_to_sleep = sleep;
-	data->var.number_of_times_each_philosopher_must_eat = nb_eat;
-}
-void	initphilo(t_philo *data)
-{
-	size_t i;
+	int	i;
 
 	i = 0;
-	while (i++ < data->var.number_of_philosopher)
-		{
-			if (pthread_create(&data->list.id_philo[i], NULL, test, NULL) == 0)
-				error("erreur to init thread\n");
-			else
-			{	
-				pthread_join(data->list.id_philo[i], NULL);
-				printf("%zu", data->list.id_philo[i]);
-			}
-		}
-}
-/*
-void *eating(void *arg)
-{
-
-	pthread_exit(0); //fonction non autorise
+	while(i < data->nb_philo)
+	{
+		data->philo->data = data; //revoir l'utilite de cette ligne
+		data->philo[i].id = i + 1;
+		data->philo[i].count_eat = 0;
+		data->philo[i].time_die = data->death_time;
+		data->philo[i].take_eat = 0;
+		pthread_mutex_init(&data->philo[i].lock, NULL);
+		i++;
+	}
 }
 
-void *sleeping(void *arg)
+void	init_forks(t_data *data)
 {
+	int	i;
 
-	pthread_exit(0);
+	i = -1;
+	while (++i < data->nb_philo)
+		pthread_mutex_init(&data->forks[i], NULL);
+	i = 0;
+	data->philo[0].l_fork = &data->forks[0];
+	data->philo[0].r_fork = &data->forks[data->nb_philo - 1];
+	i = 1;
+	while (i < data->nb_philo)
+	{
+		data->philo[i].l_fork = &data->forks[i];
+		data->philo[i].r_fork = &data->forks[i - 1];
+		i++;
+	}
 }
 
-void *thinking(void *arg)
+void	init_struct(t_data *data, char **argv, int argc)
 {
+	data->nb_philo = ftatoi(argv[1]);
+	data->death_time = ftatoi(argv[1]);
+	data->eat_time = ftatoi(argv[1]);
+	data->sleep_time = ftatoi(argv[4]);
+	data->dead = 0;
+	data->finished = 0;
+	pthread_mutex_init(&data->lock, NULL);
+	pthread_mutex_init(&data->write, NULL);
+	data->philo = malloc(sizeof(pthread_t) * data->nb_philo);
+	data->tid = malloc(sizeof(pthread_t) * data->nb_philo);
+	data->forks = malloc(sizeof(pthread_t) * data->nb_philo);
+	if (!data->philo || !data->forks || !data->tid)
+		error("Error\n Failed to malloc");
+	if (argc == 6)
+		data->nb_eating = ftatoi(argv[5]);
+	else
+		data->nb_eating = -1;
+	init_philo(&data);
+	init_forks(&data);
+}
 
-	pthread_exit(0);
-}*/

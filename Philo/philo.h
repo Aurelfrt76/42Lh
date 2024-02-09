@@ -20,57 +20,53 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef struct	s_var
-{
-	size_t	number_of_philosopher;
-	size_t 	time_to_die;
-	size_t	time_to_eat;
-	size_t	time_to_sleep;
-	size_t	number_of_times_each_philosopher_must_eat;
-}	t_var;
+# define TAKE_FORKS "has taken a fork"
+# define THINKING "is thinking"
+# define SLEEPING "is sleeping"
+# define EATING "is eating"
+# define DIED "died"
 
-typedef struct s_listphilo
+typedef struct	s_data
 {
-	pthread_t	*id_philo;
-	int				dead_flag;
-	pthread_mutex_t	dead_lock;
-	pthread_mutex_t	meal_lock;
-	pthread_mutex_t	write_lock;
-	struct s_listphilo	*next;
-}	t_listphilo;
+	pthread_t	*tid;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	write;
+	size_t	nb_philo;
+	size_t 	death_time;
+	size_t	eat_time;
+	size_t	sleep_time;
+	size_t	nb_eating;
+	size_t	dead;
+	size_t	finished;
+	//size_t	take_eat;
+	//size_t	id;
+	t_philo *philo;
+}	t_data;
 
 typedef struct s_philo
 {
-	int	thread;
-	int	eating;
-	int take_eat;
-	size_t start_time;
-	int	*dead;
-	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	lock;
 	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*write_lock;
-	pthread_mutex_t	*dead_lock;
-	pthread_mutex_t	*meal_lock;
-	t_var var;
-	t_listphilo	list;
+	pthread_mutex_t	*r_fork;
+	size_t	id;
+	size_t	count_eat;
+	size_t	time_die;
+	size_t	take_eat;
+	size_t	start_time;
+	t_data *data;
+	
+	
 }	t_philo;
 
+void	init_struct(t_data *data, char **argv, int argc)
 
-
-void	init_struct(t_philo *data, int nb, int die, int eat, int sleep, int nb_eat);
-
-void	initphilo(t_philo *nbphilo);
+void	init_philo(t_data *data);
 
 void	error(char *str);
 
 void	check_error(int argc, char **argv);
 
-void	*test(void *arg);
-
-int     ftatoi(const char *ptr);
-
-t_philo create_node(pthread_t tid);
-
-t_philo init_list(size_t nbphilo);
+size_t     ftatoi(const char *ptr);
 
 #endif
