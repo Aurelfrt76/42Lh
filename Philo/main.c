@@ -16,13 +16,16 @@ int main (int argc, char **argv)
 {
 	t_data	data;
 
-	//check_error(argc, argv);
-	init_struct(&data,argv, argc);
-	printf("%zu", data.nb_philo);
-	printf("%zu", data.death_time);
-	printf("%zu", data.eat_time);
-	printf("%zu", data.sleep_time);
-	printf("%zu", data.nb_eating);
+	if(check_error(argc, argv) == 0)
+	{
+		printf("pas derreur\n");
+		init_struct(&data,argv, argc);
+		printf("%zu\n", data.nb_philo);
+		printf("%zu\n", data.death_time);
+		printf("%zu\n", data.eat_time);
+		printf("%zu\n", data.sleep_time);
+		printf("%zu\n", data.nb_eating);
+	}
 	/*while (i < data.id_thread)
 	{
 		if (pthread_create(data.id_thread, NULL, ) != 0);

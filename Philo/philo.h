@@ -26,6 +26,20 @@
 # define EATING "is eating"
 # define DIED "died"
 
+
+typedef struct s_philo
+{
+	struct s_data	*data;
+	pthread_mutex_t	lock;
+	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*r_fork;
+	size_t	id;
+	size_t	count_eat;
+	size_t	time_die;
+	size_t	take_eat;
+	size_t	start_time;
+}	t_philo;
+
 typedef struct	s_data
 {
 	pthread_t	*tid;
@@ -39,33 +53,22 @@ typedef struct	s_data
 	size_t	nb_eating;
 	size_t	dead;
 	size_t	finished;
+	size_t	start_time;
 	//size_t	take_eat;
 	//size_t	id;
 	t_philo *philo;
 }	t_data;
 
-typedef struct s_philo
-{
-	pthread_mutex_t	lock;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*r_fork;
-	size_t	id;
-	size_t	count_eat;
-	size_t	time_die;
-	size_t	take_eat;
-	size_t	start_time;
-	t_data *data;
-	
-	
-}	t_philo;
 
-void	init_struct(t_data *data, char **argv, int argc)
+
+
+void	init_struct(t_data *data, char **argv, int argc);
 
 void	init_philo(t_data *data);
 
 void	error(char *str);
 
-void	check_error(int argc, char **argv);
+int	check_error(int argc, char **argv);
 
 size_t     ftatoi(const char *ptr);
 

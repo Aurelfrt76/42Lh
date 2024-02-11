@@ -2,12 +2,12 @@
 
 void	init_philo(t_data *data)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while(i < data->nb_philo)
 	{
-		data->philo->data = data; //revoir l'utilite de cette ligne
+		data->philo[i].data = data; //revoir l'utilite de cette ligne
 		data->philo[i].id = i + 1;
 		data->philo[i].count_eat = 0;
 		data->philo[i].time_die = data->death_time;
@@ -19,7 +19,7 @@ void	init_philo(t_data *data)
 
 void	init_forks(t_data *data)
 {
-	int	i;
+	size_t	i;
 
 	i = -1;
 	while (++i < data->nb_philo)
@@ -39,8 +39,8 @@ void	init_forks(t_data *data)
 void	init_struct(t_data *data, char **argv, int argc)
 {
 	data->nb_philo = ftatoi(argv[1]);
-	data->death_time = ftatoi(argv[1]);
-	data->eat_time = ftatoi(argv[1]);
+	data->death_time = ftatoi(argv[2]);
+	data->eat_time = ftatoi(argv[3]);
 	data->sleep_time = ftatoi(argv[4]);
 	data->dead = 0;
 	data->finished = 0;
@@ -55,7 +55,7 @@ void	init_struct(t_data *data, char **argv, int argc)
 		data->nb_eating = ftatoi(argv[5]);
 	else
 		data->nb_eating = -1;
-	init_philo(&data);
-	init_forks(&data);
+	init_philo(data);
+	init_forks(data);
 }
 

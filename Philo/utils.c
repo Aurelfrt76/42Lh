@@ -11,14 +11,14 @@ size_t     ftatoi(const char *ptr)
         k = 0;
         if (*ptr == '-')
                 return (0);
-        while (*ptr == '+' || *ptr == '-')
+        while (*ptr == '+')
         {
                 ptr++;
                 j++;
         }
         if (j >= 2)
                 return (0);
-        while (*ptr >= 48 && *ptr <= 57)
+        while (*ptr >= '0' && *ptr <= '9')
         {
                 k = k * 10 + (*ptr - '0');
                 ptr++;
