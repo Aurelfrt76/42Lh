@@ -1,0 +1,10 @@
+Liste des codes retour de bash
+
+- **0** : Succès
+- **1** : Erreur générique
+- **2** : Problème de syntaxe dans le script
+- **126** : Permission refusée : le fichier est exécutable mais la commande ne peut pas être exécutée
+- **127** : Commande introuvable
+- **128** : Erreur de sortie de la commande causée par une interruption du processus (par exemple, `kill -9`)
+- **130** : Termination par CTRL+C
+- **255** : Valeur de sortie hors limites

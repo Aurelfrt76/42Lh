@@ -1,0 +1,1 @@
+- Revoir la valeur de retour de la fonction exit qui doit renvoyer un modulo de 256
